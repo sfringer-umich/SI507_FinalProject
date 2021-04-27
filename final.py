@@ -62,19 +62,19 @@ def get_yelp_data(location, latitude, longitude, food_input):
     
     for offset in [0,50]:
         if location == "NA" and food_input != "NA":
-            params = {'term':food_input,'latitude': latitude,'longitude': longitude,'limit': 50, 'sortby': 'rating', 'offset': offset}
+            params = {'term':food_input,'latitude': latitude,'longitude': longitude,'limit': 50, 'sortby': 'rating', 'offset': offset, 'categories': 'restaurants'}
 
         elif location == "NA" and food_input == "NA":
             food_input = "food"
-            params = {'term': food_input,'latitude': latitude,'longitude': longitude,'limit': 50, 'sortby': 'rating', 'offset': offset}
+            params = {'term': food_input,'latitude': latitude,'longitude': longitude,'limit': 50, 'sortby': 'rating', 'offset': offset, 'categories': 'restaurants'}
         
         elif location != "NA" and food_input == "NA":
             food_input = "food"
-            params = {'term': food_input,'location':location,'limit': 50, 'sortby': 'rating', 'offset': offset}
+            params = {'term': food_input,'location':location,'limit': 50, 'sortby': 'rating', 'offset': offset, 'categories': 'restaurants'}
 
         else:
-            params = {'term':food_input,'location':location,'limit': 50,'sortby': 'rating','offset': offset}
-    
+            params = {'term':food_input,'location':location,'limit': 50,'sortby': 'rating','offset': offset, 'categories': 'restaurants'}
+
         response_url = str(location) + str(latitude) + str(longitude) + str(food_input) + str(offset)
         response_url_list.append(response_url)
         count = 1
@@ -478,6 +478,8 @@ if __name__ == "__main__":
                 url_list, response_url = get_yelp_data(user_zipcode, latitude_coord, longitude_coord, food_input)
 
                 if len(url_list) == 0:
+                    print("There are no restaurants in this area with that food category.")
+                    print("\n")
                     break
 
                 else:
@@ -489,8 +491,14 @@ if __name__ == "__main__":
 
                     try:
                         choice_input = int(choice_input)
-                        menu_list = scrape_yelp(url_list, choice_input)
-                        webbrowser.open(menu_list[0])
+
+                        if choice_input <= 10 and choice_input > 0:
+                            menu_list = scrape_yelp(url_list, choice_input)
+                            webbrowser.open(menu_list[0])
+                        
+                        else:
+                            print("Invalid Input. Please enter a number on the list.")
+                            print("\n")
                     
                     except ValueError:
                         choice_input = check_input(choice_input)
@@ -504,6 +512,7 @@ if __name__ == "__main__":
                         
                         else:
                             print("[Error] Invalid Input")
+                            print("\n")
 
         except ValueError:
             print("Invalid Input!")
