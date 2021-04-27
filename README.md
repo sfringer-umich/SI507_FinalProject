@@ -1,6 +1,7 @@
 # Welcome to my Final Project!
 
 This project will allow a user to:
+
 (1) Enter a zipcode or city & state to then see four visualizations of restaurants in the area based on Yelp's API data.
 (2) Then, the user can narrow their search by entering a food category to see the top 10 rated restaurants in that area within this food category.
 (3) Lastly, the user can choose to look at a menu of one of the top 10 rated restaurants in to learn more.
